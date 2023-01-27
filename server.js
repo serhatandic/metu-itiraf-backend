@@ -96,4 +96,4 @@ app.get("/", async (req, res) => {
     console.error(error.message);
   }
 });
-app.listen(process.env.PORT);
+app.listen(process.env.PORT || 4000);

@@ -10,27 +10,26 @@ app.use(cors());
 
 app.get("/comments/:id", async (req, res) => {
   try {
-    const postid = req.params["id"]
-    console.log("postid: ", postid);
+    const postid = req.params["id"];
     const supabase = createClient(config.PROJECT_URL, config.API_KEY);
     const { data, error } = await supabase
       .from("comments")
       .select()
-      .eq("postid",postid)
-      .order("date", {ascending:false});
+      .eq("postid", postid)
+      .order("date", { ascending: false });
     if (error) {
       throw new Error(error.message);
     }
-    console.log(data);
     res.status(200).json(data);
   } catch (error) {
     console.error(error.message);
+    res.status(500).json(error.message);
   }
 });
 
 app.post("/newpost", async (req, res) => {
-  const body = req.body;
   try {
+    const body = req.body;
     const supabase = createClient(config.PROJECT_URL, config.API_KEY);
     const { data, error } = await supabase
       .from("entries")
@@ -48,17 +47,16 @@ app.post("/newpost", async (req, res) => {
     if (error) {
       throw new Error(error.message);
     }
-    console.log(req.body);
-    console.log(data);
+    res.status(200).json("Success");
   } catch (error) {
     console.error(error.message);
+    res.status(500).json(error.message);
   }
 });
 
 app.post("/newcomment", async (req, res) => {
-  const body = req.body;
-  console.log(body);
   try {
+    const body = req.body;
     const supabase = createClient(config.PROJECT_URL, config.API_KEY);
     const { data, error } = await supabase
       .from("comments")
@@ -75,25 +73,28 @@ app.post("/newcomment", async (req, res) => {
     if (error) {
       throw new Error(error.message);
     }
-    console.log(req.body);
-    console.log(data);
+    res.status(200).json("Success");
   } catch (error) {
     console.error(error.message);
+    res.status(500).json(error.message);
   }
 });
 
 app.get("/", async (req, res) => {
-  console.log(config.PROJECT_URL);
   try {
     const supabase = createClient(config.PROJECT_URL, config.API_KEY);
-    const { data, error } = await supabase.from("entries").select().order("date", {ascending:false});
+    const { data, error } = await supabase
+      .from("entries")
+      .select()
+      .order("date", { ascending: false });
     if (error) {
       throw new Error(error.message);
     }
-    console.log(data);
     res.status(200).json(data);
   } catch (error) {
     console.error(error.message);
+    res.status(500).json(error.message);
   }
 });
+
 app.listen(process.env.PORT || 4000);

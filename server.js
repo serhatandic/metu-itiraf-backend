@@ -41,6 +41,7 @@ app.post("/newpost", async (req, res) => {
           content: body.content,
           category: body.category,
           date: new Date().toISOString(),
+          instagramProfileUrl: body.instagramProfileUrl
         },
       ])
       .select();
@@ -67,6 +68,7 @@ app.post("/newcomment", async (req, res) => {
           comment: body.comment,
           nickname: body.nickname,
           date: new Date().toISOString(),
+          instagramProfileUrl: body.instagramProfileUrl
         },
       ])
       .select();
